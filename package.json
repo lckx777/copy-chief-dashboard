@@ -1,6 +1,6 @@
 {
   "name": "@lucapimenta/copy-chief-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Copy Chief BLACK — Dashboard (Next.js)",
   "bin": {
     "copy-chief-dashboard": "bin/cli.js"
@@ -10,6 +10,9 @@
     "build": "cd dashboard && npm run build",
     "start": "cd dashboard && npm run start",
     "install-dashboard": "node bin/cli.js install"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
   },
   "engines": {
     "node": ">=18.0.0"
