@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Copy Chief BLACK — Dashboard (Next.js)",
   "bin": {
-    "copy-chief-dashboard": "./bin/cli.js"
+    "copy-chief-dashboard": "bin/cli.js"
   },
   "scripts": {
     "dev": "cd dashboard && npm run dev",
@@ -11,13 +11,22 @@
     "start": "cd dashboard && npm run start",
     "install-dashboard": "node bin/cli.js install"
   },
-  "engines": { "node": ">=18.0.0" },
-  "files": ["bin/", "dashboard/", "installer/"],
-  "keywords": ["copywriting", "dashboard", "claude-code"],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "dashboard/"
+  ],
+  "keywords": [
+    "copywriting",
+    "dashboard",
+    "claude-code"
+  ],
   "author": "Luca Pimenta",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lckx777/copy-chief-dashboard.git"
+    "url": "git+https://github.com/lckx777/copy-chief-dashboard.git"
   }
 }
