@@ -12,10 +12,18 @@ program.name('copy-chief-dashboard').version('1.0.0')
   .description('Copy Chief BLACK — Dashboard');
 
 program.command('install')
-  .description('Install dashboard dependencies and build')
+  .description('Install dashboard (uses pre-built static export)')
   .action(() => {
     console.log('Copy Chief Dashboard — Installing...\n');
 
+    const outDir = path.join(DASHBOARD_DIR, 'out');
+    if (fs.existsSync(outDir)) {
+      console.log('[1/1] Pre-built dashboard found — no build needed.');
+      console.log('\n✅ Dashboard installed! Run: npx @lucapimenta/copy-chief-dashboard start');
+      return;
+    }
+
+    // Fallback: build from source if out/ not present
     if (!fs.existsSync(path.join(DASHBOARD_DIR, 'package.json'))) {
       console.error('Dashboard source not found');
       process.exit(1);
@@ -25,9 +33,15 @@ program.command('install')
     execSync('npm install', { cwd: DASHBOARD_DIR, stdio: 'inherit' });
 
     console.log('\n[2/2] Building...');
-    execSync('npm run build', { cwd: DASHBOARD_DIR, stdio: 'inherit' });
+    try {
+      execSync('npm run build', { cwd: DASHBOARD_DIR, stdio: 'inherit' });
+    } catch (e) {
+      console.log('\n⚠️  Build failed. Dashboard source is included for manual build.');
+      console.log('    cd dashboard && npm install && npm run build');
+      return;
+    }
 
-    console.log('\n✅ Dashboard installed! Run: copy-chief-dashboard start');
+    console.log('\n✅ Dashboard installed! Run: npx @lucapimenta/copy-chief-dashboard start');
   });
 
 program.command('dev')
@@ -41,8 +55,17 @@ program.command('start')
   .option('-p, --port <port>', 'Port number', '3000')
   .action((opts) => {
     const port = opts.port || '3000';
-    console.log(`Starting dashboard on http://localhost:${port}`);
-    execSync(`npx next start -p ${port}`, { cwd: DASHBOARD_DIR, stdio: 'inherit' });
+    const outDir = path.join(DASHBOARD_DIR, 'out');
+
+    if (fs.existsSync(outDir)) {
+      // Serve pre-built static export
+      console.log(`Starting dashboard on http://localhost:${port} (static)`);
+      execSync(`npx serve -s "${outDir}" -l ${port}`, { stdio: 'inherit' });
+    } else {
+      // Fallback to next start if built with node_modules
+      console.log(`Starting dashboard on http://localhost:${port}`);
+      execSync(`npx next start -p ${port}`, { cwd: DASHBOARD_DIR, stdio: 'inherit' });
+    }
   });
 
 program.parse();

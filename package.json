@@ -1,6 +1,6 @@
 {
   "name": "@lucapimenta/copy-chief-dashboard",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Copy Chief BLACK — Dashboard (Next.js)",
   "bin": {
     "copy-chief-dashboard": "bin/cli.js"
@@ -19,7 +19,15 @@
   },
   "files": [
     "bin/",
-    "dashboard/"
+    "dashboard/out/",
+    "dashboard/src/",
+    "dashboard/public/",
+    "dashboard/package.json",
+    "dashboard/tsconfig.json",
+    "dashboard/next.config.*",
+    "dashboard/tailwind.config.*",
+    "dashboard/postcss.config.*",
+    "dashboard/components.json"
   ],
   "keywords": [
     "copywriting",
